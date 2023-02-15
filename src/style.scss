@@ -1,0 +1,75 @@
+.canvas{
+  
+  border-style: bold;
+  box-shadow: 5px 8px 13px red ;
+}
+body,html{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction:column;
+  height: 100%;
+  width: 100%
+}
+
+#doping {
+  fill: orange;
+  background-color: orange;
+}
+
+#noDoping{
+  fill: yellow;
+  background-color: yellow
+  
+}
+
+.dot{
+  opacity: 0.7;
+  border: 1px solid;
+}
+
+
+#legend {
+  position: relative;
+  height: 70px;
+  width: 165px;
+  border:1px solid red;
+  left:250px;
+  top:105px;
+  display: flex;
+  flex-direction:row;
+  justify-content:center;
+  align-content: space-around
+     
+}
+
+.square{
+ height: 20px;
+ width: 20px;
+ border: 1px solid black;
+ margin-right:3px
+ 
+  
+}
+.content{
+display:flex;
+flex-direction: column;
+justify-content: space-around;
+font-family: arial;
+font-size: 10px
+}
+
+
+#tooltip{
+ position:absolute;
+ height: 60px;
+ width:150px;
+ background-color: #ff6666;
+ border-radius: 5px;
+ color: white;
+ opacity:0;
+ font-size:13px;
+ padding: 6px;
+ font-family: arial
+}
+

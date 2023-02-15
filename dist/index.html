@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Fork Me! FCC: Test Suite Template</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<head>   <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+
+
+<body>
+  <h2 id='title'>Doping in Professional Bicycle Racing
+</h2>
+  
+  <script>
+   
+document.addEventListener('DOMContentLoaded', () => {
+  var req = new XMLHttpRequest();
+  req.open('GET','https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json', 'true');
+  
+  req.send();
+  req.onload = function() {
+    var dataYear = [];
+    var dataTime = [];
+    var dataDoping = [];
+    var dataName = [];
+ var data = JSON.parse(req.responseText)
+ data.map((obj,i) => {
+  dataTime[i] = new Date(Date.parse('2000-01-01T00:' + obj['Time']));
+  dataYear[i] = obj['Year']
+  dataDoping[i] = obj['Doping']
+  dataName[i] = obj['Name']
+ })    
+ 
+
+
+   const h = 300;
+   const w = 700;
+   const padd = 20;
+  var svg = d3.select('body')
+              .append('svg')
+              .style('color','red')
+              .attr('class','canvas')
+              .attr('height', h)
+              .attr('width', w)
+  
+  
+  const xScale = d3.scaleLinear()
+  .domain([d3.min(dataYear, (d) => d-1) ,d3.max(dataYear, (d)=> d+1)])
+  .range([0,w-padd*3.5])
+  
+  
+ const yScale = d3.scaleTime()
+ .domain([d3.max(dataTime),d3.min(dataTime)])
+ .range([0,h-padd*2])
+ 
+  const yAxisScale = d3.scaleTime()
+ .domain([d3.min(dataTime),d3.max(dataTime)])
+ .range([0,h-padd*2])
+  
+ 
+  const timeFormat = d3.timeFormat("%M:%S");
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'))
+  const yAxis = d3.axisLeft(yAxisScale).tickFormat(timeFormat)
+  
+  svg.append('g')
+.attr('id','x-axis')   .attr('transform',`translate(${padd*2.5},${h-padd})`)
+    .call(xAxis)
+    
+  svg.append('g')
+  .attr('id','y-axis')  .attr('transform',`translate(${padd*2.5},${padd})`)
+    .call(yAxis) 
+  
+    var tooltip = d3.select('body')
+   .append('div')
+   .attr('id','tooltip')
+    
+    
+ svg.selectAll('circle')
+     .data(dataTime)
+     .enter()
+    .append('circle')
+    .attr('class','dot')
+    .attr('r',6)
+    .attr('cx', (d,i) => xScale(dataYear[i]) + padd*2.5)
+    .attr('cy', (d,i) => h -yScale(dataTime[i]) - padd)
+    .attr('id', (d,i) => dataDoping[i] !== '' ? 'doping':'noDoping')
+    .style('stroke', 'black')
+    .attr('data-xvalue', (d,i) =>  dataYear[i])
+    .attr('data-yvalue', (d,i) =>
+         dataTime[i])
+    .on('mouseover',(d,i) => {
+   tooltip.transition()
+   .duration(200)
+   .style('opacity',0.8)
+   
+   tooltip.attr('data-year', dataYear[i])
+   .style('left', d3.event.pageX +'px')
+   .style('top', d3.event.pageY +'px')
+   .html('Name: ' + dataName[i] + '<br/>' + 'Year: ' + dataYear[i]+ '<br/>' + 'Time: ' + dataTime[i].getMinutes() + ':' + dataTime[i].getSeconds())
+ })
+    
+    
+   .on('mouseout', () => {
+   tooltip.transition()
+   .duration(100)
+   .style('opacity',0)
+ })
+    
+    
+ 
+  
+  
+  
+  
+   
+  }})
+</script>
+  
+  
+<div id ='legend'>
+  <div class= 'content'>
+    <div class='square' id='noDoping'></div>
+    <div class='square' id='doping'> </div>
+  </div>
+  <div class= 'content'>
+    <span>No doping allegations</span>
+    <span>Riders with doping allegations
+</span>
+  </div> 
+    
+    </div>
+  </div>
+</body>
+<!-- partial -->
+  <script src='https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
